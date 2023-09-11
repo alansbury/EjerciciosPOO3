@@ -32,7 +32,7 @@ public class Menu {
                 case 1:
                     System.out.println(menuChoseTypeOfDiet);
 
-                    int valueMenuB = ScannerMethods.nextInt();
+                    int valueMenuB = Kb.getOption(1, 4);
                     switch (valueMenuB) {
                         case 1:
                             dieta = new Diet();
@@ -46,6 +46,7 @@ public class Menu {
                         case 4:
                             dieta = createDietWithPersonalData(scanner);
                             break;
+                            //correxir: engadir default
                     }
 
                     break;
@@ -63,11 +64,7 @@ public class Menu {
                                 "-2. Alimento existente");
 
 
-
                         int userElectionFoodNewOrExisting = Kb.getOption(1, 2);
-
-
-
                         addNewFoodOrChangeQuantityOfExistingFood(userElectionFoodNewOrExisting, scanner, dieta);
                     }
 
@@ -81,7 +78,7 @@ public class Menu {
                     }
                     goOutOfWhileLoop = true;
                     break;
-
+//correxir
                 default:
                     //System.out.println("value menu es " + valueMenu);
                     //System.out.println("entra en default");
@@ -99,9 +96,9 @@ public class Menu {
 
         scanner.nextLine();
         String nameFoodCreatedByUser = null;
+//correxir usar kb.
 
-
-        while ( nameFoodCreatedByUser == null || nameFoodCreatedByUser.equals("")) {
+        while ( nameFoodCreatedByUser == null || nameFoodCreatedByUser.isEmpty()) {
             System.out.println("Introduce o nome do alimento.");
 
             String provisionalName = scanner.nextLine().trim();
@@ -110,7 +107,7 @@ public class Menu {
                 provisionalName = scanner.nextLine().trim();
             }
             nameFoodCreatedByUser = provisionalName;
-            provisionalName = null;
+
 
         }
 
@@ -140,7 +137,7 @@ public class Menu {
     }
 
     private void showInfoOfDiet(Diet dieta) {
-
+//correxir pdoeria usar toString();
         if (dieta == null){
             System.out.println("Non hai dieta para mostrar aínda");
         }else{
@@ -173,7 +170,7 @@ public class Menu {
         String max_fats = scanner.nextLine();
         Integer max_fatsInt =null;
 
-
+//correxir crear un so metodo
         if (!max_fats.equals("")){
 
             while (!Kb.isStringMadeOfDigits(max_fats) || max_fats.length() > 6){
@@ -216,7 +213,7 @@ public class Menu {
 
     private Diet createDietWithPersonalData(Scanner scanner) {
         String gender = "Z";
-
+//correxir simplificar
         while(!gender.equals("H") && !gender.equals("M")){
             System.out.println("Introduce H para home, M para muller");
             gender = scanner.nextLine().toUpperCase().trim();
@@ -232,6 +229,7 @@ public class Menu {
         System.out.println("Introduce a idade"); //
         String ageString = scanner.nextLine().trim(); //
         int ageInt; //
+        //correxir agora acepta 999. reutiliza
         while (!Kb.isStringMadeOfDigits(ageString) || ageString.length() >= 3){
             System.out.println("Escribe unha idade entre 0 e 99");
             ageString = scanner.nextLine().trim();
@@ -256,7 +254,7 @@ public class Menu {
 
         System.out.println("Introduce o peso");
         int weight = scanner.nextInt();
-
+//correxir validar peso
         return new Diet(women, ageInt, heightInt, weight);
     }
 
@@ -300,13 +298,13 @@ public class Menu {
             }else{
 
                 System.out.println("Elixe o alimento da lista");
-                int num = 0;
+                int num = 1;
 
-                for (int i = 0; i < diet.getFoodsInDiet().size(); i++) {
+                for (int i = 0; i < diet.getFoodsInDiet().size(); i++, num++) {
+                    //correxir revisar e entender
 
-
-                    System.out.println("-" + ++num + "." + " " + diet.getFoodsInDiet().get(i).getName() + ", " + diet.getQuantitiesInDiet().get(i) + " gramos");
-
+                    System.out.println("-" + num + "." + " " + diet.getFoodsInDiet().get(i).getName() + ", "
+                            + diet.getQuantitiesInDiet().get(i) + " gramos");
                 }
 
                 int selectedFoodNumber = Kb.getOption(1, diet.getFoodsInDiet().size());

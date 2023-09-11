@@ -57,6 +57,7 @@ public class Diet {
         Integer caloriesInThisNewAddedFood = food.getCalories(quantity);
 
         //teño que sumar esas calorias ás calorias acumulada na dieta
+        //correxir calculos aqui arriba
         Integer caloriesProvisionallyAdded = totalCalories + caloriesInThisNewAddedFood;
         Integer carbsProvisionallyAdded = totalCarbs + food.getCarbos();
         Integer fatsProvisionallyAdded = totalFats + food.getFats();
@@ -81,12 +82,13 @@ public class Diet {
             System.out.println("Demasiadas proteinas na dieta.");
             highInSomething = true;
         }
-        if (highInSomething == true) {
+        if (highInSomething) {
             System.out.println("O alimento non se engadiu á dieta");
         }
-        if (highInSomething == false) {
+        if (!highInSomething) {
 
             foodsInDiet.add(food);
+            Foods.getFoodsByDefault().add(food);
             food_quantity.add(quantity);
             totalCalories = totalCalories + caloriesInThisNewAddedFood;
 

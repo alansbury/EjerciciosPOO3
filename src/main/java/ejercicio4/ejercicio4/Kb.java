@@ -23,6 +23,8 @@ public class Kb {
         }while(notvalid);
         return option;
     }
+
+    //correxir. uso esto nalgun lado??
     public static Integer nextInt(){
         Scanner keyboard = new Scanner(System.in);
         String resultString = keyboard.nextLine().trim();
@@ -54,7 +56,6 @@ public class Kb {
         String result = keyboard.nextLine().trim();
         return result;
     }
-
 
     public static boolean isStringMadeOfDigits(String input) {
         // Check if the input string is null or empty
