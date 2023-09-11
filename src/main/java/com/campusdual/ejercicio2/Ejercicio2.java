@@ -1,5 +1,7 @@
 package com.campusdual.ejercicio2;
 
+import ejercicio4.ejercicio4.Kb;
+
 import java.util.Scanner;
 
 public class Ejercicio2 {
@@ -8,7 +10,7 @@ public class Ejercicio2 {
         while (true){
         Scanner scanner1 = new Scanner(System.in);
         System.out.println("Introduce un ano");
-        Integer year = scanner1.nextInt();
+        Integer year = Kb.nextInt();
 
         boolean bisiesto = false;
         if (year % 4 == 0) {

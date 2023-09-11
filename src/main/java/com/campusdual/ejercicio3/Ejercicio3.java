@@ -1,5 +1,7 @@
 package com.campusdual.ejercicio3;
 
+import ejercicio4.ejercicio4.Kb;
+
 import java.util.Scanner;
 
 public class Ejercicio3 {
@@ -8,7 +10,7 @@ public class Ejercicio3 {
         while (true) {
             Scanner scanner1 = new Scanner(System.in);
             System.out.println("Dame un numero do 1 ó 20");
-            Integer numero_a_comprobar = scanner1.nextInt();
+            Integer numero_a_comprobar = Kb.nextInt();
 
             if (0 < numero_a_comprobar && numero_a_comprobar < 21 && numero_a_comprobar % 1 == 0) {
                 switch (numero_a_comprobar) {

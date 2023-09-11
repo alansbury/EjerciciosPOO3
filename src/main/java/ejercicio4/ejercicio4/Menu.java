@@ -8,7 +8,7 @@ public class Menu {
 
     public Menu() {
 
-        Scanner scanner = new Scanner(System.in);
+
         String mainMenu = "\n" +
                 "-1. Crear/reiniciar dieta: crea o remplaza la dieta inicial\n" +
                 "-2. Mostrar información: muestra calorías y macronutrientes de la dieta\n" +
@@ -21,7 +21,7 @@ public class Menu {
                 "-4. Por datos personales";
         Diet dieta = null;
         boolean goOutOfWhileLoop = false;
-        while (goOutOfWhileLoop == false) {
+        while (!goOutOfWhileLoop) {
 
             System.out.println(mainMenu);
             Integer userElectionInMainMenu = null;
@@ -38,13 +38,13 @@ public class Menu {
                             dieta = new Diet();
                             break;
                         case 2:
-                            dieta = createDietWithCaloriesLimit(scanner);
+                            dieta = createDietWithCaloriesLimit();
                             break;
                         case 3:
-                            dieta = createDietWithMacroLimits(scanner);
+                            dieta = createDietWithMacroLimits();
                             break;
                         case 4:
-                            dieta = createDietWithPersonalData(scanner);
+                            dieta = createDietWithPersonalData();
                             break;
                             //correxir: engadir default
                     }
@@ -65,7 +65,7 @@ public class Menu {
 
 
                         int userElectionFoodNewOrExisting = Kb.getOption(1, 2);
-                        addNewFoodOrChangeQuantityOfExistingFood(userElectionFoodNewOrExisting, scanner, dieta);
+                        addNewFoodOrChangeQuantityOfExistingFood(userElectionFoodNewOrExisting,dieta);
                     }
 
                     break;
@@ -92,19 +92,19 @@ public class Menu {
     }
 
 
-    private Food asksUserDataOfNewFoodAndCreatesIt(Scanner scanner) throws InputMismatchException {
+    private Food asksUserDataOfNewFoodAndCreatesIt() throws InputMismatchException {
 
-        scanner.nextLine();
+        Kb.nextLine();
         String nameFoodCreatedByUser = null;
 //correxir usar kb.
 
         while ( nameFoodCreatedByUser == null || nameFoodCreatedByUser.isEmpty()) {
             System.out.println("Introduce o nome do alimento.");
 
-            String provisionalName = scanner.nextLine().trim();
+            String provisionalName = Kb.nextLine().trim();
             while(Kb.isStringMadeOfDigits(provisionalName) || provisionalName.length() > 14){
                 System.out.println("Introduce un nome de menos de 14 letras");
-                provisionalName = scanner.nextLine().trim();
+                provisionalName = Kb.nextLine().trim();
             }
             nameFoodCreatedByUser = provisionalName;
 
@@ -112,25 +112,25 @@ public class Menu {
         }
 
         System.out.println("Introduce os carbohidratos do alimento");
-        int carbs = addCarbsProteinsOrFatsToFoodBeforeCreate(scanner);
+        int carbs = addCarbsProteinsOrFatsToFoodBeforeCreate();
 
         System.out.println("Introduce as graxas do alimento");
-        int fats = addCarbsProteinsOrFatsToFoodBeforeCreate(scanner);
+        int fats = addCarbsProteinsOrFatsToFoodBeforeCreate();
 
         System.out.println("Introduce as proteínas do alimento");
-        int proteins = addCarbsProteinsOrFatsToFoodBeforeCreate(scanner);
+        int proteins = addCarbsProteinsOrFatsToFoodBeforeCreate();
 
 
 
         return new Food(nameFoodCreatedByUser, carbs, fats, proteins);
     }
 
-    private int addCarbsProteinsOrFatsToFoodBeforeCreate(Scanner scanner){
-        String provisional = scanner.nextLine().trim();
+    private int addCarbsProteinsOrFatsToFoodBeforeCreate(){
+        String provisional = Kb.nextLine().trim();
 
         while (!Kb.isStringMadeOfDigits(provisional) || provisional.length() > 7){
             System.out.println("Escribe un número de 7 díxitos ou menos");
-            provisional = scanner.nextLine().trim();
+            provisional = Kb.nextLine().trim();
         }
         int macroQuantityInFood = Integer.parseInt(provisional);
         return macroQuantityInFood;
@@ -164,10 +164,10 @@ public class Menu {
 
     }
 
-    private Diet createDietWithMacroLimits(Scanner scanner) {
+    private Diet createDietWithMacroLimits() {
 
         System.out.println("Introduce o número de graxas máximas ou pulsa enter se non queres limitar.");
-        String max_fats = scanner.nextLine();
+        String max_fats = Kb.nextLine();
         Integer max_fatsInt =null;
 
 //correxir crear un so metodo
@@ -176,33 +176,33 @@ public class Menu {
             while (!Kb.isStringMadeOfDigits(max_fats) || max_fats.length() > 6){
 
                 System.out.println("Por favor escribe un número de menos de 6 cifras");
-                max_fats = scanner.nextLine();
+                max_fats = Kb.nextLine();
             }
             max_fatsInt = Integer.parseInt(max_fats);
         }
 
 
         System.out.println("Introduce o número de carbohidratos máximos ou pulsa enter se non queres limitar.");
-        String max_carbs = scanner.nextLine();
+        String max_carbs = Kb.nextLine();
         Integer max_carbsInt =null;
 
         if (!max_carbs.equals("")){
             while(!Kb.isStringMadeOfDigits(max_carbs) || max_carbs.length() > 6){
                 System.out.println("Por favor escribe un número de menos de 6 cifras");
-                max_carbs = scanner.nextLine();
+                max_carbs = Kb.nextLine();
             }
 
             max_carbsInt = Integer.parseInt(max_carbs);
         }
 
         System.out.println("Introduce o número de proteinas máximas ou pulsa enter se non queres limitar.");
-        String max_proteins = scanner.nextLine();
+        String max_proteins = Kb.nextLine();
         Integer max_proteinsInt =null;
 
         if (!max_proteins.equals("")){
             while(!Kb.isStringMadeOfDigits(max_proteins) || max_proteins.length() > 6){
                 System.out.println("Por favor escribe un número de menos de 6 cifras");
-                max_proteins = scanner.nextLine().trim();
+                max_proteins = Kb.nextLine().trim();
             }
             max_proteinsInt = Integer.parseInt(max_proteins);
         }
@@ -211,12 +211,12 @@ public class Menu {
     }
 
 
-    private Diet createDietWithPersonalData(Scanner scanner) {
+    private Diet createDietWithPersonalData() {
         String gender = "Z";
 //correxir simplificar
         while(!gender.equals("H") && !gender.equals("M")){
             System.out.println("Introduce H para home, M para muller");
-            gender = scanner.nextLine().toUpperCase().trim();
+            gender = Kb.nextLine().toUpperCase().trim();
         }
 
         boolean women = false;
@@ -227,24 +227,24 @@ public class Menu {
         }
 
         System.out.println("Introduce a idade"); //
-        String ageString = scanner.nextLine().trim(); //
+        String ageString = Kb.nextLine().trim(); //
         int ageInt; //
         //correxir agora acepta 999. reutiliza
         while (!Kb.isStringMadeOfDigits(ageString) || ageString.length() >= 3){
             System.out.println("Escribe unha idade entre 0 e 99");
-            ageString = scanner.nextLine().trim();
+            ageString = Kb.nextLine().trim();
 
         }
         ageInt = Integer.parseInt(ageString);
 
 
         System.out.println("Introduce a altura en centímetros");
-        String heightString = scanner.nextLine().trim();
+        String heightString = Kb.nextLine().trim();
         int heightInt;
 
         while(!(Kb.isStringMadeOfDigits(heightString) && (40 < Integer.parseInt(heightString)) && (Integer.parseInt(heightString) < 210))){
             System.out.println("Escribe unha altura entre 40 e 210");
-            heightString = scanner.nextLine().trim();
+            heightString = Kb.nextLine().trim();
 
         }
         heightInt = Integer.parseInt(heightString);
@@ -253,15 +253,15 @@ public class Menu {
 
 
         System.out.println("Introduce o peso");
-        int weight = scanner.nextInt();
+        int weight = Kb.nextInt();
 //correxir validar peso
         return new Diet(women, ageInt, heightInt, weight);
     }
 
 
-    private Diet createDietWithCaloriesLimit(Scanner scanner) {
+    private Diet createDietWithCaloriesLimit() {
         System.out.println("Introduce o número de calorías máximas");
-        String max_calories = scanner.nextLine();
+        String max_calories = Kb.nextLine();
         Integer max_caloriesInt =null;
 
         if (!max_calories.equals("")){
@@ -269,7 +269,7 @@ public class Menu {
             while (!Kb.isStringMadeOfDigits(max_calories) || max_calories.length() > 6){
 
                 System.out.println("Por favor escribe un número de menos de 6 cifras");
-                max_calories = scanner.nextLine();
+                max_calories = Kb.nextLine();
             }
             max_caloriesInt = Integer.parseInt(max_calories);
         }
@@ -279,14 +279,14 @@ public class Menu {
     }
 
 
-    private void addNewFoodOrChangeQuantityOfExistingFood(int foodNewOrNot, Scanner scanner, Diet diet) {
+    private void addNewFoodOrChangeQuantityOfExistingFood(int foodNewOrNot, Diet diet) {
 
         if (foodNewOrNot == 1) {
 
-            Food food = asksUserDataOfNewFoodAndCreatesIt(scanner);
+            Food food = asksUserDataOfNewFoodAndCreatesIt();
 
             System.out.println("Introduce a cantidade de alimento");
-            int quantity = scanner.nextInt();
+            int quantity = Kb.nextInt();
 
             diet.addFoodIfItsUnderLimits(food, quantity);
 
@@ -311,7 +311,7 @@ public class Menu {
                 int selectedFoodIndexInArray = selectedFoodNumber - 1;
 
                 System.out.println("Cantos gramos queres engadir de " + diet.getFoodsInDiet().get(selectedFoodIndexInArray).getName());
-                int addedQuantity = scanner.nextInt();
+                int addedQuantity = Kb.nextInt();
 
 
                 Integer currentQuantityOfThatFood = diet.getQuantitiesInDiet().get(selectedFoodIndexInArray);

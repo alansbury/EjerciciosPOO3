@@ -1,26 +1,24 @@
 package ejercicio4.ejercicio4;
 
 
-import java.sql.SQLOutput;
-import java.util.Scanner;
 
 public class Pruebas{
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+
         boolean salir = false;
-        while(salir == false) {
+        while(!salir) {
 
             System.out.println("elige 1, 2 o 3");
 
-            String valueMenu = scanner.nextLine().trim();
+            String valueMenu = Kb.nextLine().trim();
 
             switch (valueMenu) {
                 case "1":
                     System.out.println( "a o b");
 
-                    String valueMenuB = scanner.nextLine().toUpperCase().trim();
+                    String valueMenuB = Kb.nextLine().toUpperCase().trim();
                     switch (valueMenuB) {
                         case "A":
                             System.out.println("HAS ELEGIDO A");
@@ -35,7 +33,7 @@ public class Pruebas{
                 case "2":
 
                     System.out.println("Elige entre A y B");
-                    String foodNewOrNot = scanner.nextLine().toUpperCase().trim();
+                    String foodNewOrNot = Kb.nextLine().toUpperCase().trim();
                     if (foodNewOrNot.equals("A")) {
 
                         System.out.println("has elegido a");
