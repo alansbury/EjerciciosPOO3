@@ -97,11 +97,13 @@ public class Menu {
 
     private Food asksUserDataOfNewFoodAndCreatesIt(Scanner scanner) throws InputMismatchException {
 
+        scanner.nextLine();
         String nameFoodCreatedByUser = null;
 
-        while ( nameFoodCreatedByUser == null || nameFoodCreatedByUser.length() > 20  ) {
+
+        while ( nameFoodCreatedByUser == null || nameFoodCreatedByUser.equals("")) {
             System.out.println("Introduce o nome do alimento.");
-            scanner.nextLine();
+
             String provisionalName = scanner.nextLine().trim();
             while(Kb.isStringMadeOfDigits(provisionalName) || provisionalName.length() > 14){
                 System.out.println("Introduce un nome de menos de 14 letras");
@@ -112,8 +114,6 @@ public class Menu {
 
         }
 
-
-
         System.out.println("Introduce os carbohidratos do alimento");
         int carbs = addCarbsProteinsOrFatsToFoodBeforeCreate(scanner);
 
@@ -122,7 +122,6 @@ public class Menu {
 
         System.out.println("Introduce as proteínas do alimento");
         int proteins = addCarbsProteinsOrFatsToFoodBeforeCreate(scanner);
-
 
 
 
@@ -310,7 +309,7 @@ public class Menu {
 
                 }
 
-                int selectedFoodNumber = Kb.getOption(1, diet.getFoodsInDiet().size()-1);
+                int selectedFoodNumber = Kb.getOption(1, diet.getFoodsInDiet().size());
                 int selectedFoodIndexInArray = selectedFoodNumber - 1;
 
                 System.out.println("Cantos gramos queres engadir de " + diet.getFoodsInDiet().get(selectedFoodIndexInArray).getName());
