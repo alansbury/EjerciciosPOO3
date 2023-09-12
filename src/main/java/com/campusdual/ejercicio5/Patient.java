@@ -1,6 +1,7 @@
 package com.campusdual.ejercicio5;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Patient {
 
@@ -20,9 +21,15 @@ public class Patient {
     private boolean woman;
 
 
-    HashMap<String, Diet> dietsForPatient = new HashMap<>();
+    private LinkedHashMap<String, Diet> dietsForPatientHash = new LinkedHashMap<>();
 
+    public void setDietsForPatientHash(LinkedHashMap<String, Diet> dietsForPatientHash) {
+        this.dietsForPatientHash = dietsForPatientHash;
+    }
 
+    public LinkedHashMap<String, Diet> getDietsForPatientHash() {
+        return dietsForPatientHash;
+    }
 
     public Patient(String name, String surname, int weight, int height, int age, boolean woman) {
         this.name = name;
@@ -32,15 +39,15 @@ public class Patient {
         this.age = age;
         this.woman = woman;
 
-        dietsForPatient.put(MONDAY, null);
-        dietsForPatient.put(TUESDAY, null);
-        dietsForPatient.put(WEDNESDAY, null);
-        dietsForPatient.put(THURSDAY, null);
-        dietsForPatient.put(FRIDAY, null);
-        dietsForPatient.put(SATURDAY, null);
-        dietsForPatient.put(SUNDAY, null);
+        dietsForPatientHash.put(MONDAY, null);
+        dietsForPatientHash.put(TUESDAY, null);
+        dietsForPatientHash.put(WEDNESDAY, null);
+        dietsForPatientHash.put(THURSDAY, null);
+        dietsForPatientHash.put(FRIDAY, null);
+        dietsForPatientHash.put(SATURDAY, null);
+        dietsForPatientHash.put(SUNDAY, null);
 
-        Patients.getPatientsArrayList().add(this);
+
 
     }
 

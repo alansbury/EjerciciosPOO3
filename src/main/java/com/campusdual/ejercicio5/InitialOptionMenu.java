@@ -5,9 +5,11 @@ import com.campusdual.ejercicio5.exceptions.MaxCarbsReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxFatsReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxProteinsReachedException;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class InitialOptionMenu {
 
@@ -23,36 +25,489 @@ public class InitialOptionMenu {
 
     public void showMenuProgram(){
         System.out.println("########################################################");
+        System.out.println("################# Inicio ###############################");
+        System.out.println("########################################################");
+        Integer option;
+        do{
+            System.out.println("Escriba una opción:");
+            System.out.println("===================================");
+            System.out.println("1-Pacientes");
+            System.out.println("2-Dietas");
+            System.out.println("3-Salir del programa");
+            option = Kb.getOption(1,3);
+            switch (option){
+                case 1:
+                    showPatientOptions();
+                    break;
+                case 2:
+                    showDietOptions();
+                    break;
+                case 3:
+                    System.out.println("Gracias por usar el programa, hasta pronto :)");
+                    break;
+
+
+            }
+        }while(option != 4);
+    }
+
+
+    private void showPatientOptions(){
+        System.out.println("########################################################");
+        System.out.println("#################  Pacientes  ##########################");
+        System.out.println("########################################################");
+        Integer option;
+
+            System.out.println("Escriba una opción:");
+            System.out.println("===================================");
+            System.out.println("1-Añadir paciente");
+            System.out.println("2-Lista de pacientes");
+            System.out.println("3-Salir del programa");
+
+            option = Kb.getOption(1,3);
+            switch (option){
+                case 1:
+                    askDataAndCreatesPatientAndPutItInArray();
+                    break;
+                case 2:
+                    showsPatientsListToModifyOrDelete();
+                    break;
+                case 3:
+                    System.out.println("Gracias por usar el programa, hasta pronto :)");
+                    break;
+
+
+            }
+
+    }
+
+
+    private static void askDataAndCreatesPatientAndPutItInArray(){
+
+        System.out.println("Nombre del paciente:");
+        String name = Kb.nextLine();
+        System.out.println("Apellidos del paciente:");
+        String surname = Kb.nextLine();
+        System.out.println("Peso:");
+        int weight = Kb.forceNextInt();
+        System.out.println("Altura:");
+        int height = Kb.forceNextInt();
+        System.out.println("Edad:");
+        int age = Kb.forceNextInt();
+        String gender = "Z";
+        boolean woman = true;
+        while((gender.equals("H") && (gender.equals("M")))){
+            System.out.println("Sexo (H/M):");
+            gender = Kb.nextLine().trim().toUpperCase();
+        }
+        if (gender=="H"){
+            woman = false;
+        }
+
+        Patient patient = new Patient(name, surname,weight,height,age, woman);
+        Patients.getPatientsArrayList().add(patient);
+
+        System.out.println("JUCHE " + Patients.getPatientsArrayList());
+
+
+    }
+
+    private void showsPatientsListToModifyOrDelete(){
+
+        Patient selectedPatient;
+        int i = 1;
+        for (Patient p : Patients.getPatientsArrayList()){
+            System.out.println(i + " - " + p.getName() + " " + p.getSurname());
+            i++;
+        }
+        System.out.println(i + " - Salir");
+
+        int selection = Kb.getOption(1, i);
+
+        if (selection == i) return;
+        selectedPatient = Patients.getPatientsArrayList().get(selection -1);
+
+
+
+        System.out.println("SELECCIONADO: " + selectedPatient.getName() + " " + selectedPatient.getSurname());
+        System.out.println("1: Modificar datos");
+        System.out.println("2: Dietas");
+        System.out.println("3: Borrar");
+
+        selection = Kb.getOption(1,3);
+
+        switch (selection){
+            case 1:
+                modifyPatientData(selectedPatient);
+                break;
+
+            case 2:
+
+                seePatientDietsAndEditThem(selectedPatient);
+                break;
+            case 3:
+                deletePatient(selectedPatient);
+                break;
+
+
+        }
+
+
+    }
+
+    private void seePatientDietsAndEditThem(Patient patient){
+        boolean empty = true;
+
+
+        for(Map.Entry<String, Diet> set : patient.getDietsForPatientHash().entrySet()){
+            if (set.getValue() !=null){
+                empty = false;
+            }
+        }
+        if(empty == true){
+            System.out.println("No hay dietas que mostrar para este paciente.");
+            addDietToPatient(patient);
+
+        }else{
+            Set<String> keys = patient.getDietsForPatientHash().keySet();
+            List<String> keysList = new ArrayList<>(keys);
+
+
+
+
+            for(String key : keysList){
+
+
+
+
+
+               int i = 1;
+
+
+                for (Map.Entry<String, Diet> entry : patient.getDietsForPatientHash().entrySet()){
+                    String key1 = entry.getKey();
+                    Diet diet1 = entry.getValue();
+                    if (diet1 != null){
+                        System.out.println(i + " - BORRAR " + key1 + ": " + diet1.getName());
+                        i++;
+                    }
+
+                }
+
+                System.out.println(i++ + " - Agregar dieta a este paciente");
+                System.out.println(i + " - Salir");
+
+                int selection = Kb.getOption(1, i);
+               if (selection <= i-2){
+
+                   List<Map.Entry<String, Diet>> listWithIndices = new ArrayList<>();
+
+                   int index = 0;
+                   for (Map.Entry<String, Diet> entry : patient.getDietsForPatientHash().entrySet()) {
+                       listWithIndices.add(entry);
+
+                   }
+
+                  deleteDietFromPatient(patient, listWithIndices.get(selection-1).getKey());
+                  //
+               }
+               else{
+                   if (selection == (i-1)){
+
+                       addDietToPatient(patient);
+                   }
+                   else{
+                       //salir
+                   }
+               }
+        }
+
+        }
+
+    }
+
+    private  void addDietToPatient(Patient patient){
+        System.out.println("Select the day of the week");
+        System.out.println("1. Lunes");
+        System.out.println("2. Martes");
+        System.out.println("3. Miércoles");
+        System.out.println("4. Jueves");
+        System.out.println("5. Viernes");
+        System.out.println("6. Sábado");
+        System.out.println("7. Domingo");
+        int selected = Kb.getOption(1, 7);
+        String selectedDay = "";
+
+        switch (selected){
+            case 1:
+                selectedDay = "Lunes";
+                break;
+            case 2:
+                selectedDay = "Martes";
+                break;
+            case 3:
+                selectedDay = "Miércoles";
+                break;
+            case 4:
+                selectedDay = "Jueves";
+                break;
+            case 5:
+                selectedDay = "Viernes";
+                break;
+            case 6:
+                selectedDay = "Sábado";
+                break;
+            case 7:
+                selectedDay = "Domingo";
+                break;
+        }
+
+        Diet diet = null;
+
+        System.out.println("Elige dieta a añadir");
+        int ix = 1;
+        for (Diet dietX : Diets.getDietsArrayList()){
+            System.out.println(ix + ". " + Diets.getDietsArrayList().get(ix-1).getName());
+            ix++;
+        }
+        System.out.println(ix + ". Crear nueva dieta");
+
+        int election = Kb.getOption(1, ix);
+        Diet dietToAdd = null;
+       if (election < ix){
+           dietToAdd = Diets.getDietsArrayList().get(election-1);
+
+           patient.getDietsForPatientHash().put(selectedDay, dietToAdd);
+           System.out.println(patient.getDietsForPatientHash());
+       }
+       else{
+           createsDietOfSelectedTypeAndPutsItInArray();
+
+       }
+
+
+
+
+
+    }
+
+    private static void deleteDietFromPatient(Patient patient, String nameOfDiet){
+
+        patient.getDietsForPatientHash().remove(nameOfDiet);
+
+    }
+
+
+    private static void deleteDietFromGlobalListAfterCheckingIfSomeoneIsUsingIt(Diet diet){
+
+        boolean notInUse = true;
+        System.out.println("1");
+
+
+            for (Patient patient : Patients.getPatientsArrayList()){
+                System.out.println("dentro loop");
+                for (Map.Entry<String, Diet> entry : patient.getDietsForPatientHash().entrySet()){
+                    if (entry.getValue() == diet){
+                        notInUse = false;
+
+                    }
+                }
+            }
+
+        System.out.println("fuera loop");
+        if(notInUse){
+            Diets.getDietsArrayList().remove(diet);
+            System.out.println("Dieta " + diet.getName() + " ha sido borrada");
+        }else{
+            System.out.println("La dieta " + diet.getName() + " no puedes ser borrada porque se encuentra en uso.");
+        }
+
+
+    }
+
+    private static void modifyPatientData(Patient patient){
+        System.out.println("Selecciona el dato que quieres cambiar:");
+        System.out.println("1 - Nombre");
+        System.out.println("2 - Apellido");
+        System.out.println("3 - Peso");
+        System.out.println("4 - Altura");
+        System.out.println("5 - Edad");
+        System.out.println("6 - Sexo");
+
+
+        int selection = Kb.getOption(1, 6);
+
+        switch (selection){
+            case 1:
+                System.out.println("Introduce nuevo nombre:");
+                String newName = Kb.nextLine();
+                patient.setName(newName);
+            case 2:
+                System.out.println("Introduce nuevo apellido:");
+                String newSurname = Kb.nextLine();
+                patient.setSurname(newSurname);
+            case 3:
+                System.out.println("Introduce nuevo peso:");
+                int newWeight = Kb.nextInt();
+                patient.setWeight(newWeight);
+            case 4:
+                System.out.println("Introduce nueva altura:");
+                int newHeight = Kb.nextInt();
+                patient.setWeight(newHeight);
+            case 5:
+                System.out.println("Introduce nueva edad:");
+                int newAge = Kb.nextInt();
+                patient.setWeight(newAge);
+            case 6:
+                boolean woman = true;
+                String gender = Kb.nextLine();
+                while((gender.equals("H") && (gender.equals("M")))){
+                    System.out.println("Sexo (H/M):");
+                    gender = Kb.nextLine().trim().toUpperCase();
+                }
+                if (gender=="H"){
+                    woman = false;
+                }
+                patient.setWoman(woman);
+
+        }
+
+
+
+
+
+    }
+
+    private static void deletePatient(Patient patient){
+        Patients.getPatientsArrayList().remove(patient);
+        System.out.println(patient.getName() +" "+ patient.getSurname() + " borrado");
+        System.out.println("JUCHE: " +
+                Patients.getPatientsArrayList());
+    }
+
+
+
+    public void showDietOptions(){
+        System.out.println("########################################################");
         System.out.println("################# Programa de dietas ###################");
         System.out.println("########################################################");
         Integer option;
         do{
             System.out.println("Escriba una opción:");
             System.out.println("===================================");
-            System.out.println("1-Crear/reiniciar dieta");
-            System.out.println("2-Mostrar información de la dieta");
-            System.out.println("3-Agregar alimento al plan actual");
-            System.out.println("4-Salir del programa");
+            System.out.println("1-Agregar nueva dieta");
+            System.out.println("2-Listar dietas");
+            System.out.println("3-Salir del programa");
             option = Kb.getOption(1,4);
             switch (option){
                 case 1:
-                    createMenu();
+                    createsDietOfSelectedTypeAndPutsItInArray();
                     break;
                 case 2:
-                    showDetailsMenu();
+                    showsDietsInTheArray();
                     break;
                 case 3:
-                    addFoodMenu();
-                    break;
-                case 4:
                     System.out.println("Gracias por usar el programa, hasta pronto :)");
                     break;
             }
-        }while(option != 4);
+        }while(option != 3);
     }
 
-    private void addFoodMenu() {
-        if(this.diet==null){
+
+
+
+
+    private void showsDietsInTheArray(){
+        Diet selectedDiet;
+        int numeroSeleccion;
+        if (Diets.getDietsArrayList().isEmpty()){
+            System.out.println("No hay dietas que mostrar");
+        }else{
+            int i = 1;
+            System.out.println("Elige la dieta que quieras modificar o borrar:");
+            for(Diet diet: Diets.getDietsArrayList()){
+                System.out.println(i + " - " + Diets.getDietsArrayList().get(i-1).getName());
+                i++;
+            }
+
+            numeroSeleccion = Kb.getOption(1, Diets.getDietsArrayList().size() +1);
+            if(numeroSeleccion == Diets.getDietsArrayList().size() +1){
+                return;
+            }
+
+            selectedDiet = Diets.getDietsArrayList().get(numeroSeleccion - 1);
+
+            System.out.println("1. Modificar \n" +
+                               "2. Borrar");
+            numeroSeleccion = Kb.getOption(1, 2);
+            switch (numeroSeleccion){
+                case 1:
+                    modifyDiet(selectedDiet);
+                    break;
+                case 2:
+                 deleteDietFromGlobalListAfterCheckingIfSomeoneIsUsingIt(selectedDiet);
+                 break;
+            }
+
+
+        }
+
+    }
+
+    private void deleteDietFromArray(Diet diet){
+        Diets.getDietsArrayList().remove(diet);
+    }
+
+    private void modifyDiet(Diet diet){
+        int indexOfDietInArray = Diets.getDietsArrayList().indexOf(diet);
+        System.out.println("Selecciona el dato que quieras modificar");
+        System.out.println("1 - Nombre");
+        System.out.println("2 - Calorías máximas");
+        System.out.println("3 - Grasas máximas");
+        System.out.println("4 - Proteínas máximas");
+        System.out.println("5 - Carbohidratos máximos");
+        System.out.println("6 - Añadir alimento");
+
+
+        int selection = Kb.getOption(1, 6);
+        int value;
+        switch (selection){
+            case 1:
+                System.out.println("Introduce el nuevo nombre: ");
+                String name = Kb.nextLine();
+                Diets.getDietsArrayList().get(indexOfDietInArray).setName(name);
+                break;
+            case 2:
+                System.out.println("Introduce las nuevas calorías máximas");
+                value = Kb.nextInt();
+                Diets.getDietsArrayList().get(indexOfDietInArray).setMaxCalories(value);
+                break;
+            case 3:
+                System.out.println("Introduce las nuevas grasas máximas");
+                value = Kb.nextInt();
+                Diets.getDietsArrayList().get(indexOfDietInArray).setMaxFats(value);
+                break;
+            case 4:
+                System.out.println("Introduce las nuevas proteínas máximas");
+                value = Kb.nextInt();
+                Diets.getDietsArrayList().get(indexOfDietInArray).setMaxProteins(value);
+                break;
+            case 5:
+                System.out.println("Introduce los nuevos carbohidratos máximos");
+                value = Kb.nextInt();
+                Diets.getDietsArrayList().get(indexOfDietInArray).setMaxCarbs(value);
+                break;
+            case 6:
+                addFoodMenu(Diets.getDietsArrayList().get(indexOfDietInArray));
+
+
+        }
+
+    }
+
+
+    private void addFoodMenu(Diet diet) {
+        if(diet==null){
             System.out.println("Para agregar alimentos hace falta iniciar una dieta");
             return;
         }
@@ -81,7 +536,7 @@ public class InitialOptionMenu {
                 System.out.println("Gramos:");
                 Integer grams = Kb.forceNextInt();
                 Food newFood = new Food(name,carbs,fats,proteins);
-                validateAndAddFoodToDiet(newFood,grams);
+                validateAndAddFoodToDiet(newFood,grams, diet);
                 foodList.add(newFood);
                 break;
             case 2:
@@ -106,14 +561,14 @@ public class InitialOptionMenu {
                 Food storedFood = foodList.get(element-1);
                 System.out.println("indique el número de gramos de "+storedFood.getName());
                 Integer foodGrams = Kb.forceNextInt();
-                validateAndAddFoodToDiet(storedFood,foodGrams);
+                validateAndAddFoodToDiet(storedFood,foodGrams, diet);
                 break;
         }
     }
 
-    private void validateAndAddFoodToDiet(Food food, Integer grams){
+    private void validateAndAddFoodToDiet(Food food, Integer grams, Diet diet){
         try{
-            this.diet.addFood(food,grams);
+            diet.addFood(food,grams);
         }catch (MaxCaloriesReachedException ecal){
             System.out.println("Se ha alcanzado el máximo valor de calorías permitido");
         }catch (MaxCarbsReachedException ecar){
@@ -127,7 +582,8 @@ public class InitialOptionMenu {
         }
     }
 
-    private void createMenu() {
+    private  void createsDietOfSelectedTypeAndPutsItInArray() {
+        String nameDiet;
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("Crear/reiniciar dieta");
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -140,18 +596,25 @@ public class InitialOptionMenu {
         Integer option = Kb.getOption(1,4);
         switch (option){
             case 1:
-                this.diet = new Diet();
+                System.out.println("Escribe el nombre de la dieta.");
+                this.diet = new Diet(Kb.nextLine());
+                Diets.getDietsArrayList().add(this.diet);
                 System.out.println("Se ha creado una dieta sin límites");
                 break;
             case 2:
+                System.out.println("Escribe el nombre de la dieta.");
+                nameDiet = Kb.nextLine();
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 System.out.println("Escriba número de calorias");
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 Integer calories = Kb.forceNextInt();
-                this.diet = new Diet(calories);
+                this.diet = new Diet(nameDiet, calories);
+                Diets.getDietsArrayList().add(this.diet);
                 System.out.println("Se ha creado una dieta con "+calories+" calorías máximas");
                 break;
             case 3:
+                System.out.println("Escribe el nombre de la dieta.");
+                nameDiet = Kb.nextLine();
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 System.out.println("Escriba los macronutrientes");
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -161,10 +624,13 @@ public class InitialOptionMenu {
                 Integer fats = Kb.forceNextInt();
                 System.out.println("Proteínas:");
                 Integer proteins = Kb.forceNextInt();
-                this.diet = new Diet(fats,carbs,proteins);
+                this.diet = new Diet(nameDiet, fats,carbs,proteins);
+                Diets.getDietsArrayList().add(this.diet);
                 System.out.println("Se ha creado una dieta con Carbohidratos:"+carbs+", Grasas:"+fats+" ,Proteínas:"+proteins);
                 break;
             case 4:
+                System.out.println("Escribe el nombre de la dieta.");
+                nameDiet = Kb.nextLine();
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 System.out.println("Escriba los datos personales del paciente");
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -176,7 +642,8 @@ public class InitialOptionMenu {
                 Integer age = Kb.forceNextInt();
                 System.out.println("Mujer u Hombre(m/h):");
                 String sexCharacter = Kb.nextLine();
-                this.diet = new Diet("m".equalsIgnoreCase(sexCharacter),age,height,weight);
+                this.diet = new Diet(nameDiet,"m".equalsIgnoreCase(sexCharacter),age,height,weight);
+                Diets.getDietsArrayList().add(this.diet);
                 System.out.println("Se ha creado una dieta de "+this.diet.getMaxCalories()+" calorías máximas");
                 break;
         }
@@ -205,4 +672,9 @@ public class InitialOptionMenu {
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
     }
+
+
+
+
+
 }

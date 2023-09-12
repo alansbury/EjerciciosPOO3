@@ -5,41 +5,56 @@ import com.campusdual.ejercicio5.exceptions.*;
 import java.util.ArrayList;
 import java.util.List;
 public class Diet {
+
+
     public static final String OK = "OK";
     public static final String MAX_CALORIES_REBASE = "MAX_CALORIES_REBASE";
     public static final String MAX_CARBS_REBASE = "MAX_CARBS_REBASE";
     public static final String MAX_FATS_REBASE = "MAX_FATS_REBASE";
     public static final String MAX_PROTEINS_REBASE = "MAX_PROTEINS_REBASE";
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
     private Integer maxCalories;
     private Integer maxCarbs;
     private Integer maxFats;
     private Integer maxProteins;
     private List<Intake> intakes;
 
-    public Diet(){
+    public Diet(String name){
+        this.name = name;
         this.intakes = new ArrayList<>();
     }
 
-    public Diet(Integer maxCalories){
+    public Diet(String name, Integer maxCalories){
+        this.name = name;
         this.maxCalories=maxCalories;
         this.intakes = new ArrayList<>();
     }
 
-    public Diet(Integer maxFats, Integer maxCarbs, Integer maxProteins){
+    public Diet(String name,Integer maxFats, Integer maxCarbs, Integer maxProteins){
+        this.name = name;
         this.maxCarbs=maxCarbs;
         this.maxFats=maxFats;
         this.maxProteins=maxProteins;
         this.intakes = new ArrayList<>();
     }
 
-    public Diet(Boolean women, Integer age, Integer height, Integer weight){
+    public Diet(String name, Boolean women, Integer age, Integer height, Integer weight){
+        this.name = name;
         if(women){
             maxCalories = (int) ((10*weight) + (6.25*height))-(5*age)-161;
         }else{
             maxCalories = (int) ((10*weight) + (6.25*height))-(5*age)+5;
         }
         this.intakes = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addFood(Food food, Integer grams) throws MaxValuedReachedException {

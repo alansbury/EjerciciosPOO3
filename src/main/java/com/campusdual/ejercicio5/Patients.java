@@ -7,6 +7,8 @@ public class Patients {
 
     private static ArrayList<Patient> patientsArrayList = new ArrayList<Patient>();
 
+
+
     public static ArrayList<Patient> getPatientsArrayList() {
         return patientsArrayList;
     }
