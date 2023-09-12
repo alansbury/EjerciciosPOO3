@@ -1,6 +1,7 @@
 package ejercicio4.ejercicio4;
 
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -46,7 +47,7 @@ public class Menu {
                         case 4:
                             dieta = createDietWithPersonalData();
                             break;
-                            //correxir: engadir default
+
                     }
 
                     break;
@@ -78,12 +79,8 @@ public class Menu {
                     }
                     goOutOfWhileLoop = true;
                     break;
-//correxir
-                default:
-                    //System.out.println("value menu es " + valueMenu);
-                    //System.out.println("entra en default");
-                    System.out.println("Elixe un número entre 1 e 4.");
-                    break;
+
+
 
 
             }
@@ -96,7 +93,7 @@ public class Menu {
 
         Kb.nextLine();
         String nameFoodCreatedByUser = null;
-//correxir usar kb.
+
 
         while ( nameFoodCreatedByUser == null || nameFoodCreatedByUser.isEmpty()) {
             System.out.println("Introduce o nome do alimento.");
@@ -107,6 +104,7 @@ public class Menu {
                 provisionalName = Kb.nextLine().trim();
             }
             nameFoodCreatedByUser = provisionalName;
+            int tres = new Random().nextInt(5);
 
 
         }
@@ -218,7 +216,6 @@ public class Menu {
             System.out.println("Introduce H para home, M para muller");
             gender = Kb.nextLine().toUpperCase().trim();
         }
-
         boolean women = false;
         if (gender.equals("M")) {
             women = true;
@@ -226,17 +223,17 @@ public class Menu {
             women = false;
         }
 
+
         System.out.println("Introduce a idade"); //
         String ageString = Kb.nextLine().trim(); //
         int ageInt; //
-        //correxir agora acepta 999. reutiliza
+
         while (!Kb.isStringMadeOfDigits(ageString) || ageString.length() >= 3){
             System.out.println("Escribe unha idade entre 0 e 99");
             ageString = Kb.nextLine().trim();
 
         }
         ageInt = Integer.parseInt(ageString);
-
 
         System.out.println("Introduce a altura en centímetros");
         String heightString = Kb.nextLine().trim();
@@ -249,14 +246,23 @@ public class Menu {
         }
         heightInt = Integer.parseInt(heightString);
 
-
-
-
         System.out.println("Introduce o peso");
-        int weight = Kb.nextInt();
-//correxir validar peso
-        return new Diet(women, ageInt, heightInt, weight);
+        String weightString = Kb.nextLine().trim();
+        int weightInt;
+        while(!(Kb.isStringMadeOfDigits(weightString) && (40 < Integer.parseInt(weightString)) && (Integer.parseInt(weightString) < 210))){
+            System.out.println("Escribe unha altura entre 40 e 210");
+            weightString = Kb.nextLine().trim();
+
+        }
+        weightInt = Integer.parseInt(weightString);
+
+
+
+
+
+        return new Diet(women, ageInt, heightInt, weightInt);
     }
+
 
 
     private Diet createDietWithCaloriesLimit() {
