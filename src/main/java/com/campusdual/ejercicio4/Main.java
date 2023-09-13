@@ -1,4 +1,4 @@
-package ejercicio4.ejercicio4;
+package com.campusdual.ejercicio4;
 
 public class Main {
 

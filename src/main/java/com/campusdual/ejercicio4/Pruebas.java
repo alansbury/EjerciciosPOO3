@@ -1,21 +1,5 @@
-package ejercicio4.ejercicio4;
+package com.campusdual.ejercicio4;
 
-
-import com.campusdual.ejercicio5.Diet;
-import com.campusdual.ejercicio5.Diets;
-import com.campusdual.ejercicio5.Food;
-import com.campusdual.ejercicio5.Kb;
-import com.campusdual.ejercicio5.Patient;
-import com.campusdual.ejercicio5.Patients;
-import com.campusdual.ejercicio5.exceptions.MaxCaloriesReachedException;
-import com.campusdual.ejercicio5.exceptions.MaxCarbsReachedException;
-import com.campusdual.ejercicio5.exceptions.MaxFatsReachedException;
-import com.campusdual.ejercicio5.exceptions.MaxProteinsReachedException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class Pruebas{
 

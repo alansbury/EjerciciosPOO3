@@ -1,8 +1,7 @@
-package ejercicio4.ejercicio4;
+package com.campusdual.ejercicio4;
 
 import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
 
 
 public class Menu {

@@ -1,6 +1,6 @@
 package com.campusdual.ejercicio2;
 
-import ejercicio4.ejercicio4.Kb;
+import com.campusdual.ejercicio4.Kb;
 
 import java.util.Scanner;
 
