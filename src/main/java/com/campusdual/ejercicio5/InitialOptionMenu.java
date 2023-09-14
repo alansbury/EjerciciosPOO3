@@ -7,7 +7,7 @@ import com.campusdual.ejercicio5.exceptions.MaxCarbsReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxFatsReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxProteinsReachedException;
 
-import java.sql.SQLOutput;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -165,13 +165,13 @@ public class InitialOptionMenu {
         }
 
         int i = 1;
-        if (empty == true) {
+        if (empty) {
             System.out.println("No hay dietas que mostrar para este paciente.");
 
 
         } else {
             Set<String> keys = patient.getDietsForPatientHash().keySet();
-            List<String> keysList = new ArrayList<>(keys);
+
 
 
             for (Map.Entry<String, Diet> entry : patient.getDietsForPatientHash().entrySet()) {
@@ -289,15 +289,12 @@ public class InitialOptionMenu {
             }
         }
 
-
         if (notInUse) {
             Diets.getDietsArrayList().remove(diet);
             System.out.println("Dieta " + diet.getName() + " ha sido borrada");
         } else {
             System.out.println("La dieta " + diet.getName() + " no puedes ser borrada porque se encuentra en uso.");
         }
-
-
     }
 
     private static void modifyPatientData(Patient patient) {
@@ -348,21 +345,16 @@ public class InitialOptionMenu {
                 break;
             case 7:
                 break;
-
-
         }
-
-
     }
 
     private static void deletePatient(Patient patient) {
         Patients.getPatientsArrayList().remove(patient);
         System.out.println(patient.getFullname() + " borrado");
-
     }
 
     private static Gender askUserForGender() {
-        Gender genderSlctd = Gender.MALE;
+        Gender genderSlctd = Gender.FEMALE;
         String genderStr = "";
         while ((!genderStr.equals("H") && (!genderStr.equals("M")))) {
             System.out.println("Sexo (H/M):");
@@ -372,7 +364,6 @@ public class InitialOptionMenu {
             genderSlctd = Gender.MALE;
         }
         return genderSlctd;
-
     }
 
 
@@ -590,7 +581,7 @@ public class InitialOptionMenu {
                 foodList.add(newFood);
                 break;
             case 2:
-                if (foodList.size() == 0) {
+                if (foodList.isEmpty()) {
                     System.out.println("Para agregar un alimento existente, tienen que existir alimentos previos");
                     break;
                 }
@@ -603,7 +594,7 @@ public class InitialOptionMenu {
                     i++;
                 }
                 System.out.println(i + "- Cancelar");
-                Integer element = Kb.getOption(1, i);
+                int element = Kb.getOption(1, i);
                 if (element == i) {
                     System.out.println("Cancelando alimento");
                     break;
@@ -709,13 +700,6 @@ public class InitialOptionMenu {
         return null;
     }
 
-    private void createsDietOfSelectedTypeAndPutsItInArrayVoidVersion() {
-
-        Diet diet = creatDietOfChosenTypeAndReturnsItWithoutPuttingItInArray();
-        Diets.getDietsArrayList().add(diet);
-
-
-    }
 
 
     private Diet createsDietOfSelectedTypeAndPutsItInArrayReturnsDiet() {
