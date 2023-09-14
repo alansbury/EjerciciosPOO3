@@ -237,6 +237,49 @@ public class InitialOptionMenu {
 
     }
 
+
+
+    private void addDietToPatient(Patient patient, Diet diet){
+
+        System.out.println("Elige el día de la semana:");
+        System.out.println("1. Lunes");
+        System.out.println("2. Martes");
+        System.out.println("3. Miércoles");
+        System.out.println("4. Jueves");
+        System.out.println("5. Viernes");
+        System.out.println("6. Sábado");
+        System.out.println("7. Domingo");
+        int selected = Kb.getOption(1, 7);
+        String selectedDay = "";
+
+        switch (selected){
+            case 1:
+                selectedDay = "Lunes";
+                break;
+            case 2:
+                selectedDay = "Martes";
+                break;
+            case 3:
+                selectedDay = "Miércoles";
+                break;
+            case 4:
+                selectedDay = "Jueves";
+                break;
+            case 5:
+                selectedDay = "Viernes";
+                break;
+            case 6:
+                selectedDay = "Sábado";
+                break;
+            case 7:
+                selectedDay = "Domingo";
+                break;
+        }
+
+        patient.getDietsForPatientHash().put(selectedDay, diet);
+
+    }
+
     private  void addDietToPatient(Patient patient){
         System.out.println("Elige el día de la semana:");
         System.out.println("1. Lunes");
@@ -426,7 +469,10 @@ public class InitialOptionMenu {
             option = Kb.getOption(1,4);
             switch (option){
                 case 1:
-                    createsDietOfSelectedTypeAndPutsItInArrayVoidVersion();
+                   // createsDietOfSelectedTypeAndPutsItInArrayVoidVersion();
+                    Diet dietaProvisional = createsDietOfSelectedTypeAndPutsItInArrayReturnsDiet();
+                    askUserIfTheyWantToAsociateDietToPatient(dietaProvisional);
+                    dietaProvisional = null;
                     break;
                 case 2:
                     showsDietsInTheArray();
@@ -484,6 +530,67 @@ public class InitialOptionMenu {
 
 
         }
+
+    }
+
+
+
+    private void askUserIfTheyWantToAsociateDietToPatient(Diet dieta){
+        System.out.println("1 - Asociar dieta recién creada a un paciente");
+        System.out.println("2 - Salir");
+
+        int option = Kb.getOption(1, 2);
+        switch (option){
+            case 1:
+
+
+                System.out.println("1 - Crear nuevo cliente");
+                System.out.println("2 - Cliente ya registrado");
+                System.out.println("3 - Salir");
+
+                int tipoDeCliente = Kb.getOption(1, 2);
+
+                switch (tipoDeCliente){
+                    case 1:
+                        System.out.println("todavía no se puede agregar dieta a nuevo cliente");
+                        break;
+                    case 2:
+                        if (Patients.getPatientsArrayList().isEmpty()) {
+                            System.out.println("No hay pacientes para mostrar.");
+
+                        } else {
+                            Patient selectedPatient;
+                            int i = 1;
+                            for (Patient p : Patients.getPatientsArrayList()) {
+                                System.out.println(i + " - " + p.getName() + " " + p.getSurname());
+                                i++;
+                            }
+                            System.out.println(i + " - Salir");
+
+                            int selection = Kb.getOption(1, i);
+
+                            if (selection == i) return;
+                            selectedPatient = Patients.getPatientsArrayList().get(selection - 1);
+
+                            addDietToPatient(selectedPatient, dieta);
+                            System.out.println("Se ha añadido la dieta " + dieta.getName() + " a " + selectedPatient.getName() + " " + selectedPatient. getSurname());
+
+                        }
+                        break;
+                    case 3:
+                        break;
+                }
+
+
+
+
+
+                break;
+            case 2:
+                break;
+        }
+
+
 
     }
 
