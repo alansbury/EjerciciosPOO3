@@ -18,6 +18,9 @@ public class Food {
         this.carbos=carbos;
         this.fats=fats;
         this.proteins=proteins;
+
+        Foods.getFoodsArray().add(this);
+
     }
 
     public Integer getCalories(Integer weight){
