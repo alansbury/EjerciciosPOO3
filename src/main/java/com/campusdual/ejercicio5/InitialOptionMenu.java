@@ -90,17 +90,7 @@ public class InitialOptionMenu {
         int height = Kb.forceNextInt();
         System.out.println("Edad:");
         int age = Kb.forceNextInt();
-        String genderString = "Z";
-        Gender gender = Gender.FEMALE;
-        while((!(genderString.equals("H") || (genderString.equals("M"))))){
-            System.out.println("Sexo (H/M):");
-            genderString = Kb.nextLine().trim().toUpperCase();
-        }
-        if (gender.equals("H")){
-           gender = Gender.MALE;
-        }
-
-
+        Gender gender = askUserForGender();
 
         Patient patient = new Patient(name, surname,weight,height,age, gender);
         Patients.getPatientsArrayList().add(patient);
@@ -424,16 +414,9 @@ public class InitialOptionMenu {
 
             case 6:
 
-                String genderString = Kb.nextLine();
-                Gender gender = Gender.FEMALE;
-                while((!genderString.equals("H") && (!genderString.equals("M")))){
-                    System.out.println("Sexo (H/M):");
-                    genderString = Kb.nextLine().trim().toUpperCase();
-                }
-                if (gender.equals("H")){
-                   gender = Gender.MALE;
-                }
+                Gender gender = askUserForGender();
                 patient.setGender(gender);
+
                 break;
             case 7:
                 break;
@@ -452,6 +435,20 @@ public class InitialOptionMenu {
         System.out.println(patient.getName() +" "+ patient.getSurname() + " borrado");
         System.out.println("JUCHE: " +
                 Patients.getPatientsArrayList());
+    }
+
+    private static Gender askUserForGender(){
+        Gender genderSlctd = Gender.MALE;
+        String genderStr = "";
+        while((!genderStr.equals("H") && (!genderStr.equals("M")))){
+            System.out.println("Sexo (H/M):");
+            genderStr = Kb.nextLine().trim().toUpperCase();
+        }
+        if (genderStr.equals("H")){
+            genderSlctd = Gender.MALE;
+        }
+        return genderSlctd;
+
     }
 
 
