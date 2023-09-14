@@ -19,8 +19,16 @@ public class Food {
         this.fats=fats;
         this.proteins=proteins;
 
+        //TODO SACAR ESTA LINEA DEL CONSTRUCTOR?
         Foods.getFoodsArray().add(this);
 
+    }
+
+
+    public static Food createFoodAndAddsItToArray(String name, Integer carbos, Integer fats, Integer proteins){
+        Food food = new Food(name, carbos, fats, proteins);
+        Foods.getFoodsArray().add(food);
+        return food;
     }
 
     public Integer getCalories(Integer weight){

@@ -17,6 +17,7 @@ public class Diet {
         this.name = name;
     }
 
+
     private String name;
     private Integer maxCalories;
     private Integer maxCarbs;
