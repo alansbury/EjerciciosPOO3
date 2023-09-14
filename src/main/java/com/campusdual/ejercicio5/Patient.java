@@ -15,6 +15,7 @@ public class Patient {
 
     private String name;
     private String surname;
+    private String fullname;
     private int weight;
     private int height;
     private int age;
@@ -33,6 +34,8 @@ public class Patient {
     }
 
     public Patient(String name, String surname, int weight, int height, int age, Gender gender) {
+
+        this.fullname = name + " " + surname;
         this.name = name;
         this.surname = surname;
         this.weight = weight;
@@ -52,6 +55,9 @@ public class Patient {
 
     }
 
+    public String getFullname() {
+        return fullname;
+    }
     public String getName() {
         return name;
     }

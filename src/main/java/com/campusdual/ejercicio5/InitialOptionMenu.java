@@ -95,7 +95,7 @@ public class InitialOptionMenu {
         Patient patient = new Patient(name, surname,weight,height,age, gender);
         Patients.getPatientsArrayList().add(patient);
 
-        System.out.println("Has creado paciente " + patient.getName() + " " + patient.getSurname() + "y lo has añadido a la lista.");
+        System.out.println("Has creado paciente " + patient.getFullname() + "y lo has añadido a la lista.");
 
 
 
@@ -112,7 +112,7 @@ public class InitialOptionMenu {
             Patient selectedPatient;
             int i = 1;
             for (Patient p : Patients.getPatientsArrayList()) {
-                System.out.println(i + " - " + p.getName() + " " + p.getSurname());
+                System.out.println(i + " - " + p.getFullname());
                 i++;
             }
             System.out.println(i + " - Salir");
@@ -123,7 +123,7 @@ public class InitialOptionMenu {
             selectedPatient = Patients.getPatientsArrayList().get(selection - 1);
 
 
-            System.out.println("SELECCIONADO: " + selectedPatient.getName() + " " + selectedPatient.getSurname());
+            System.out.println("SELECCIONADO: " + selectedPatient.getFullname());
             System.out.println("1: Modificar datos");
             System.out.println("2: Dietas");
             System.out.println("3: Borrar");
@@ -432,9 +432,8 @@ public class InitialOptionMenu {
 
     private static void deletePatient(Patient patient){
         Patients.getPatientsArrayList().remove(patient);
-        System.out.println(patient.getName() +" "+ patient.getSurname() + " borrado");
-        System.out.println("JUCHE: " +
-                Patients.getPatientsArrayList());
+        System.out.println(patient.getFullname() + " borrado");
+
     }
 
     private static Gender askUserForGender(){
@@ -560,7 +559,7 @@ public class InitialOptionMenu {
                             Patient selectedPatient;
                             int i = 1;
                             for (Patient p : Patients.getPatientsArrayList()) {
-                                System.out.println(i + " - " + p.getName() + " " + p.getSurname());
+                                System.out.println(i + " - " + p);
                                 i++;
                             }
                             System.out.println(i + " - Salir");
@@ -571,7 +570,7 @@ public class InitialOptionMenu {
                             selectedPatient = Patients.getPatientsArrayList().get(selection - 1);
 
                             addDietToPatient(selectedPatient, dieta);
-                            System.out.println("Se ha añadido la dieta " + dieta.getName() + " a " + selectedPatient.getName() + " " + selectedPatient. getSurname());
+                            System.out.println("Se ha añadido la dieta " + dieta.getName() + " a " + selectedPatient.getFullname());
 
                         }
                         break;
