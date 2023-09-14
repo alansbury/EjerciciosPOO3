@@ -1,10 +1,13 @@
 package com.campusdual.ejercicio5;
 
+import com.campusdual.ejercicio5.enums.Days;
+import com.campusdual.ejercicio5.enums.Gender;
 import com.campusdual.ejercicio5.exceptions.MaxCaloriesReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxCarbsReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxFatsReachedException;
 import com.campusdual.ejercicio5.exceptions.MaxProteinsReachedException;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -188,22 +191,18 @@ public class InitialOptionMenu {
         System.out.println(i + " - Salir");
 
         int selection = Kb.getOption(1, i);
-        if (selection <= i - 2) {
-            System.out.println("entro en borrado");
+        if (selection <= i - 2) { //si seleccionas o numero de algunha dieta, borrala.
 
             List<Map.Entry<String, Diet>> listWithIndices = new ArrayList<>();
-
 
             for (Map.Entry<String, Diet> entry : patient.getDietsForPatientHash().entrySet()) {
                 listWithIndices.add(entry);
 
             }
-
-
             deleteDietFromPatient(patient, listWithIndices.get(selection - 1).getKey());
 
         } else {
-            if (selection == (i - 1)) {
+            if (selection == (i - 1)) { //se seleccionas o penultimo numero agregas a este paciente unha dieta a elexir
 
                 addDietToPatient(patient);
             }
@@ -214,81 +213,31 @@ public class InitialOptionMenu {
 
 
     private void addDietToPatient(Patient patient, Diet diet) {
+//TODO VER COMO SIMPLIFICAR AS DUAS FUNCIONS CO MESMO NOME A UNHA SOLA
 
         System.out.println("Elige el día de la semana:");
-        System.out.println("1. Lunes");
-        System.out.println("2. Martes");
-        System.out.println("3. Miércoles");
-        System.out.println("4. Jueves");
-        System.out.println("5. Viernes");
-        System.out.println("6. Sábado");
-        System.out.println("7. Domingo");
-        int selected = Kb.getOption(1, 7);
-        String selectedDay = "";
-
-        switch (selected) {
-            case 1:
-                selectedDay = "Lunes";
-                break;
-            case 2:
-                selectedDay = "Martes";
-                break;
-            case 3:
-                selectedDay = "Miércoles";
-                break;
-            case 4:
-                selectedDay = "Jueves";
-                break;
-            case 5:
-                selectedDay = "Viernes";
-                break;
-            case 6:
-                selectedDay = "Sábado";
-                break;
-            case 7:
-                selectedDay = "Domingo";
-                break;
+        for (int i = 1; i < 8; i++){
+            System.out.println(i + ". " + Days.getNameFromNumber(i));
         }
 
-        patient.getDietsForPatientHash().put(selectedDay, diet);
+
+
+        int selected = Kb.getOption(1, 7);
+
+        String selectedDay = Days.getNameFromNumber(selected);
+
+
+       patient.getDietsForPatientHash().put(selectedDay, diet);
 
     }
 
     private void addDietToPatient(Patient patient) {
         System.out.println("Elige el día de la semana:");
-        System.out.println("1. Lunes");
-        System.out.println("2. Martes");
-        System.out.println("3. Miércoles");
-        System.out.println("4. Jueves");
-        System.out.println("5. Viernes");
-        System.out.println("6. Sábado");
-        System.out.println("7. Domingo");
-        int selected = Kb.getOption(1, 7);
-        String selectedDay = "";
-
-        switch (selected) {
-            case 1:
-                selectedDay = "Lunes";
-                break;
-            case 2:
-                selectedDay = "Martes";
-                break;
-            case 3:
-                selectedDay = "Miércoles";
-                break;
-            case 4:
-                selectedDay = "Jueves";
-                break;
-            case 5:
-                selectedDay = "Viernes";
-                break;
-            case 6:
-                selectedDay = "Sábado";
-                break;
-            case 7:
-                selectedDay = "Domingo";
-                break;
+        for (int i = 1; i < 8; i++){
+            System.out.println(i + ". " + Days.getNameFromNumber(i));
         }
+        int selected = Kb.getOption(1, 7);
+        String selectedDay = Days.getNameFromNumber(selected);
 
 
         System.out.println("Elige dieta a añadir");
@@ -305,7 +254,7 @@ public class InitialOptionMenu {
             dietToAdd = Diets.getDietsArrayList().get(election - 1);
 
             patient.getDietsForPatientHash().put(selectedDay, dietToAdd);
-            System.out.println(patient.getDietsForPatientHash());
+
         } else if (election == ix) {
 
             dietToAdd = createsDietOfSelectedTypeAndPutsItInArrayReturnsDiet();
@@ -520,7 +469,7 @@ public class InitialOptionMenu {
 
                 switch (tipoDeCliente) {
                     case 1:
-                        System.out.println("todavía no se puede agregar dieta a nuevo cliente");
+                        System.out.println("el programa todavía no permite se puede agregar dieta a nuevo cliente");
                         break;
                     case 2:
                         if (Patients.getPatientsArrayList().isEmpty()) {

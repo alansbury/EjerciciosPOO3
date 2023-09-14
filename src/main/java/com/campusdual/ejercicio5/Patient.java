@@ -1,6 +1,7 @@
 package com.campusdual.ejercicio5;
 
-import java.util.HashMap;
+import com.campusdual.ejercicio5.enums.Gender;
+
 import java.util.LinkedHashMap;
 
 public class Patient {

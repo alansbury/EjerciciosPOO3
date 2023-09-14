@@ -16,6 +16,8 @@ package com.campusdual.ejercicio5;
 //      3- Asignar una dieta: Muestra la lista de dietas general y puede asignarle una a un día de la semana del paciente.
 //      4- Dar de baja un paciente: Elimina los datos de un paciente(No borra sus dietas asignadas dado que pueden estar asignadas a otro paciente)
 
+import com.campusdual.ejercicio5.enums.Gender;
+
 public class Menu {
     public static void main(String[] args) {
 
