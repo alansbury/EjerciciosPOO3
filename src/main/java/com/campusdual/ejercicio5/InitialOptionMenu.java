@@ -90,19 +90,19 @@ public class InitialOptionMenu {
         int height = Kb.forceNextInt();
         System.out.println("Edad:");
         int age = Kb.forceNextInt();
-        String gender = "Z";
-        boolean woman = true;
-        while((!gender.equals("H") && (!gender.equals("M")))){
+        String genderString = "Z";
+        Gender gender = Gender.FEMALE;
+        while((!(genderString.equals("H") || (genderString.equals("M"))))){
             System.out.println("Sexo (H/M):");
-            gender = Kb.nextLine().trim().toUpperCase();
+            genderString = Kb.nextLine().trim().toUpperCase();
         }
         if (gender.equals("H")){
-            woman = false;
+           gender = Gender.MALE;
         }
 
 
 
-        Patient patient = new Patient(name, surname,weight,height,age, woman);
+        Patient patient = new Patient(name, surname,weight,height,age, gender);
         Patients.getPatientsArrayList().add(patient);
 
         System.out.println("Has creado paciente " + patient.getName() + " " + patient.getSurname() + "y lo has añadido a la lista.");
@@ -423,16 +423,17 @@ public class InitialOptionMenu {
                 break;
 
             case 6:
-                boolean woman = true;
-                String gender = Kb.nextLine();
-                while((!gender.equals("H") && (!gender.equals("M")))){
+
+                String genderString = Kb.nextLine();
+                Gender gender = Gender.FEMALE;
+                while((!genderString.equals("H") && (!genderString.equals("M")))){
                     System.out.println("Sexo (H/M):");
-                    gender = Kb.nextLine().trim().toUpperCase();
+                    genderString = Kb.nextLine().trim().toUpperCase();
                 }
                 if (gender.equals("H")){
-                    woman = false;
+                   gender = Gender.MALE;
                 }
-                patient.setWoman(woman);
+                patient.setGender(gender);
                 break;
             case 7:
                 break;

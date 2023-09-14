@@ -18,7 +18,8 @@ public class Patient {
     private int weight;
     private int height;
     private int age;
-    private boolean woman;
+    private Gender gender;
+
 
 
     private LinkedHashMap<String, Diet> dietsForPatientHash = new LinkedHashMap<>();
@@ -31,13 +32,13 @@ public class Patient {
         return dietsForPatientHash;
     }
 
-    public Patient(String name, String surname, int weight, int height, int age, boolean woman) {
+    public Patient(String name, String surname, int weight, int height, int age, Gender gender) {
         this.name = name;
         this.surname = surname;
         this.weight = weight;
         this.height = height;
         this.age = age;
-        this.woman = woman;
+        this.gender = gender;
 
         dietsForPatientHash.put(MONDAY, null);
         dietsForPatientHash.put(TUESDAY, null);
@@ -71,8 +72,8 @@ public class Patient {
         return age;
     }
 
-    public boolean isWoman() {
-        return woman;
+    public Gender getGender() {
+        return gender;
     }
 
 
@@ -96,7 +97,7 @@ public class Patient {
         this.age = age;
     }
 
-    public void setWoman(boolean woman) {
-        this.woman = woman;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

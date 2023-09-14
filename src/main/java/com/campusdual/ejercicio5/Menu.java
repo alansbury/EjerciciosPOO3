@@ -19,7 +19,7 @@ package com.campusdual.ejercicio5;
 public class Menu {
     public static void main(String[] args) {
 
-        Patients.getPatientsArrayList().add(new Patient("AAAA", "BBBB", 12, 23,23, false));
+        Patients.getPatientsArrayList().add(new Patient("AAAA", "BBBB", 12, 23,23, Gender.FEMALE));
        // Patients.getPatientsArrayList().add(new Patient("CCCC", "DDD", 12, 23,23, true));
        // Diets.getDietsArrayList().add(new Diet("prueba"));
         Diets.getDietsArrayList().add(new Diet("prueba2"));
