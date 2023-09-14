@@ -1,18 +1,12 @@
 package com.campusdual.ejercicio5;
 
+import com.campusdual.ejercicio5.enums.Days;
 import com.campusdual.ejercicio5.enums.Gender;
 
 import java.util.LinkedHashMap;
 
 public class Patient {
 
-    private static final String MONDAY = "Lunes";
-    private static final String TUESDAY = "Martes";
-    private static final String WEDNESDAY = "Miércoles";
-    private static final String THURSDAY = "Jueves";
-    private static final String FRIDAY = "Viernes";
-    private static final String SATURDAY = "Sábado";
-    private static final String SUNDAY = "Domingo";
 
     private String name;
     private String surname;
@@ -44,13 +38,12 @@ public class Patient {
         this.age = age;
         this.gender = gender;
 
-        dietsForPatientHash.put(MONDAY, null);
-        dietsForPatientHash.put(TUESDAY, null);
-        dietsForPatientHash.put(WEDNESDAY, null);
-        dietsForPatientHash.put(THURSDAY, null);
-        dietsForPatientHash.put(FRIDAY, null);
-        dietsForPatientHash.put(SATURDAY, null);
-        dietsForPatientHash.put(SUNDAY, null);
+
+
+        for (int i = 1; i < 8; i++ ){
+
+            dietsForPatientHash.put(Days.getNameFromNumber(i), null);
+        }
 
 
 
