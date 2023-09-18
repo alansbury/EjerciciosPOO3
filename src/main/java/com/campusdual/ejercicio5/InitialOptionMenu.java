@@ -39,12 +39,14 @@ public class InitialOptionMenu {
             switch (option) {
                 case 1:
                     showPatientOptions();
+
                     break;
                 case 2:
                     showDietOptions();
                     break;
                 case 3:
                     System.out.println("Gracias por usar el programa, hasta pronto :)");
+                    StaticMethods.writeListInDocument("Patients", Patients.getPatientsArrayList());
                     break;
 
 
@@ -68,7 +70,8 @@ public class InitialOptionMenu {
         option = Kb.getOption(1, 3);
         switch (option) {
             case 1:
-                askDataAndCreatesPatientAndPutItInArray();
+                askDataAndCreatesPatientAndPutItInArrayAndPrintIt();
+
                 break;
             case 2:
                 showsPatientsListToModifyDataDeleteOrAddDiet();
@@ -80,7 +83,7 @@ public class InitialOptionMenu {
     }
 
 
-    private static void askDataAndCreatesPatientAndPutItInArray() {
+    private static void askDataAndCreatesPatientAndPutItInArrayAndPrintIt() {
 
         System.out.println("Nombre del paciente:");
         String name = Kb.nextLine();
@@ -95,10 +98,14 @@ public class InitialOptionMenu {
         Gender gender = askUserForGender();
 
         Patient patient = new Patient(name, surname, weight, height, age, gender);
+
         Patients.getPatientsArrayList().add(patient);
 
-        System.out.println("Has creado paciente " + patient.getFullname() + "y lo has añadido a la lista.");
 
+        System.out.println("Has creado paciente " +patient.getName() + " " + patient.getSurname() + "y lo has añadido a la lista.");
+        System.out.println(patient.toString());
+
+        StaticMethods.writeListInDocument("Patients", Patients.getPatientsArrayList());
 
     }
 
@@ -112,7 +119,7 @@ public class InitialOptionMenu {
             Patient selectedPatient;
             int i = 1;
             for (Patient p : Patients.getPatientsArrayList()) {
-                System.out.println(i + " - " + p.getFullname());
+                System.out.println(i + " - " + p.getName() + " " + p.getSurname());
                 i++;
             }
             System.out.println(i + " - Salir");
@@ -123,7 +130,7 @@ public class InitialOptionMenu {
             selectedPatient = Patients.getPatientsArrayList().get(selection - 1);
 
 
-            System.out.println("SELECCIONADO: " + selectedPatient.getFullname());
+            System.out.println("SELECCIONADO: " + selectedPatient.getName() + " " + selectedPatient.getSurname());
             System.out.println("1: Modificar datos");
             System.out.println("2: Dietas");
             System.out.println("3: Borrar");
@@ -133,15 +140,14 @@ public class InitialOptionMenu {
 
             switch (selection) {
                 case 1:
-                    modifyPatientData(selectedPatient);
+                    modifyPatientDataAndWriteArrayInDoc(selectedPatient);
                     break;
 
                 case 2:
-
                     seePatientDietsAndEditThem(selectedPatient);
                     break;
                 case 3:
-                    deletePatient(selectedPatient);
+                    deletePatientAndWriteInDoc(selectedPatient);
                     break;
                 case 4:
 
@@ -228,6 +234,7 @@ public class InitialOptionMenu {
 
 
        patient.getDietsForPatientHash().put(selectedDay, diet);
+       StaticMethods.writeListInDocument("Patients", Patients.getPatientsArrayList());
 
     }
 
@@ -297,7 +304,8 @@ public class InitialOptionMenu {
         }
     }
 
-    private static void modifyPatientData(Patient patient) {
+    private static void modifyPatientDataAndWriteArrayInDoc(Patient patient) {
+
         System.out.println("Selecciona el dato que quieres cambiar:");
         System.out.println("1 - Nombre");
         System.out.println("2 - Apellido");
@@ -315,6 +323,9 @@ public class InitialOptionMenu {
                 System.out.println("Introduce nuevo nombre:");
                 String newName = Kb.nextLine();
                 patient.setName(newName);
+                System.out.println("el nuevo nombre introducido es "+ newName);
+                System.out.println("el nombre actualizado es " + patient.getName());
+
                 break;
             case 2:
                 System.out.println("Introduce nuevo apellido:");
@@ -346,12 +357,14 @@ public class InitialOptionMenu {
             case 7:
                 break;
         }
+        StaticMethods.writeListInDocument("Patients", Patients.getPatientsArrayList());
+
     }
 
-    private static void deletePatient(Patient patient) {
+    private static void deletePatientAndWriteInDoc(Patient patient) {
         Patients.getPatientsArrayList().remove(patient);
-        System.out.println(patient.getFullname() + " borrado");
-    }
+        System.out.println(patient.getName() + " " + patient.getSurname() + " borrado");
+        StaticMethods.writeListInDocument("Patients", Patients.getPatientsArrayList());    }
 
     private static Gender askUserForGender() {
         Gender genderSlctd = Gender.FEMALE;
@@ -481,7 +494,7 @@ public class InitialOptionMenu {
                             selectedPatient = Patients.getPatientsArrayList().get(selection - 1);
 
                             addDietToPatient(selectedPatient, dieta);
-                            System.out.println("Se ha añadido la dieta " + dieta.getName() + " a " + selectedPatient.getFullname());
+                            System.out.println("Se ha añadido la dieta " + dieta.getName() + " a " + selectedPatient.getName() + " " + selectedPatient.getSurname());
 
                         }
                         break;

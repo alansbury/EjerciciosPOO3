@@ -3,6 +3,10 @@ package com.campusdual.ejercicio5;
 import com.campusdual.ejercicio5.enums.Days;
 import com.campusdual.ejercicio5.enums.Gender;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Patient {
@@ -99,5 +103,31 @@ public class Patient {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+
+    public String toString(){
+        String result = name+";"+surname+";"+weight+";"+height+";"+age+";";
+
+        ArrayList<String> daysArrayList = new ArrayList<>(Arrays.asList("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"));
+
+        boolean first = true;
+        int i = 1;
+        int b = 0;
+        for(String day: dietsForPatientHash.keySet()){
+            if(first){
+              //  String dietName = getDietsForPatientHash().get(daysArrayList.get(b).getName());
+                result = result+i+":"+getDietsForPatientHash().get(daysArrayList.get(b));
+                first = false;
+            }else{
+                result = result+","+i+":"+getDietsForPatientHash().get(daysArrayList.get(b)) ;
+            }
+            i++;
+            b++;
+        }
+
+
+
+        return result;
     }
 }

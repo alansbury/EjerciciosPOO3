@@ -1,5 +1,8 @@
 package com.campusdual.ejercicio5;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Patients {
@@ -16,4 +19,10 @@ public class Patients {
     public static void setPatientsArrayList(ArrayList<Patient> patientsArrayList) {
         Patients.patientsArrayList = patientsArrayList;
     }
+
+
+
+
+
+
 }

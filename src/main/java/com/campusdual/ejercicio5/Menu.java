@@ -18,13 +18,29 @@ package com.campusdual.ejercicio5;
 
 import com.campusdual.ejercicio5.enums.Gender;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Menu {
     public static void main(String[] args) {
 
-        Patients.getPatientsArrayList().add(new Patient("AAAA", "BBBB", 12, 23,23, Gender.FEMALE));
+       Patients.getPatientsArrayList().add(new Patient("AAAA", "BBBB", 12, 23,23, Gender.FEMALE));
        // Patients.getPatientsArrayList().add(new Patient("CCCC", "DDD", 12, 23,23, true));
-       // Diets.getDietsArrayList().add(new Diet("prueba"));
-        Diets.getDietsArrayList().add(new Diet("prueba2"));
+        Diets.getDietsArrayList().add(new Diet("prueba"));
+       // Diets.getDietsArrayList().add(new Diet("prueba2"));
+
+
+        try {
+            File myFile = new File("Patients.txt");
+            if (myFile.createNewFile()) {
+                System.out.println("Archivo creado: " + myFile.getName());
+            } else {
+                System.out.println("El archivo ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Ocurrió un error.");
+            e.printStackTrace();
+        }
 
 
         InitialOptionMenu initialOptionMenu = new InitialOptionMenu();
