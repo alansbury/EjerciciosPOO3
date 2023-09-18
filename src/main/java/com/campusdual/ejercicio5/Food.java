@@ -19,8 +19,7 @@ public class Food {
         this.fats=fats;
         this.proteins=proteins;
 
-        //TODO SACAR ESTA LINEA DEL CONSTRUCTOR?
-        Foods.getFoodsArray().add(this);
+
 
     }
 

@@ -17,10 +17,10 @@ public class InitialOptionMenu {
 
     private Diet diet = null;
 
-    private List<Food> foodList;
+
 
     public InitialOptionMenu() {
-        foodList = new ArrayList<>();
+
     }
 
 
@@ -34,8 +34,9 @@ public class InitialOptionMenu {
             System.out.println("===================================");
             System.out.println("1-Pacientes");
             System.out.println("2-Dietas");
-            System.out.println("3-Salir");
-            option = Kb.getOption(1, 3);
+            System.out.println("3-Alimentos");
+            System.out.println("4-Salir");
+            option = Kb.getOption(1, 4);
             switch (option) {
                 case 1:
                     showPatientOptions();
@@ -45,15 +46,59 @@ public class InitialOptionMenu {
                     showDietOptions();
                     break;
                 case 3:
+                   showFoodOptions();
+                   break;
+
+                case 4:
                     System.out.println("Gracias por usar el programa, hasta pronto :)");
                     StaticMethods.writeListInDocument("Patients", Patients.getPatientsArrayList());
                     break;
 
-
             }
-        } while (option != 3);
+        } while (option != 4);
     }
 
+
+    private void showFoodOptions(){
+        System.out.println("########################################################");
+        System.out.println("#################  Alimentos  ##########################");
+        System.out.println("########################################################");
+
+        System.out.println("Escriba una opción:");
+        System.out.println("===================================");
+        System.out.println("1-Seleccionar alimento");
+        System.out.println("2-Añadir alimento nuevo");
+        System.out.println("3-Menú inicial");
+
+        int option = Kb.getOption(1, 3);
+        switch (option) {
+            case 1:
+               showListOfFoods();
+
+                break;
+            case 2:
+
+                addNewFoodToArrayFoodsButNotDiet();
+
+                break;
+            case 3:
+                break;
+        }
+
+    }
+
+
+    private void showListOfFoods(){
+        int i = 1;
+        if (!Foods.getFoodsArray().isEmpty()) {
+            for (Food food : Foods.getFoodsArray()){
+                System.out.println(i + " - " +food.getName());
+                i++;
+            }
+        }else{
+            System.out.println("No hay alimentos que mostrar");
+        }
+    }
 
     private void showPatientOptions() {
         System.out.println("########################################################");
@@ -552,15 +597,33 @@ public class InitialOptionMenu {
                 Diets.getDietsArrayList().get(indexOfDietInArray).setMaxCarbs(value);
                 break;
             case 6:
-                addFoodMenu(Diets.getDietsArrayList().get(indexOfDietInArray));
+                addNewFoodToDietButNotToArrayFood(Diets.getDietsArrayList().get(indexOfDietInArray));
 
 
         }
 
     }
 
+    private void addNewFoodToArrayFoodsButNotDiet(){
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("Datos de nuevo alimento");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("Nombre del alimento:");
+        String name = Kb.nextLine();
+        System.out.println("Carbohidratos:");
+        Integer carbs = Kb.forceNextInt();
+        System.out.println("Grasas:");
+        Integer fats = Kb.forceNextInt();
+        System.out.println("Proteínas:");
+        Integer proteins = Kb.forceNextInt();
+        System.out.println("Gramos:");
+        Integer grams = Kb.forceNextInt();
+        Food newFood = new Food(name, carbs, fats, proteins);
+        Foods.getFoodsArray().add(newFood);
 
-    private void addFoodMenu(Diet diet) {
+    }
+
+    private void addNewFoodToDietButNotToArrayFood(Diet diet) {
         if (diet == null) {
             System.out.println("Para agregar alimentos hace falta iniciar una dieta");
             return;
@@ -591,10 +654,10 @@ public class InitialOptionMenu {
                 Integer grams = Kb.forceNextInt();
                 Food newFood = new Food(name, carbs, fats, proteins);
                 validateAndAddFoodToDiet(newFood, grams, diet);
-                foodList.add(newFood);
+                Foods.getFoodsArray().add(newFood);
                 break;
             case 2:
-                if (foodList.isEmpty()) {
+                if (Foods.getFoodsArray().isEmpty()) {
                     System.out.println("Para agregar un alimento existente, tienen que existir alimentos previos");
                     break;
                 }
@@ -602,7 +665,7 @@ public class InitialOptionMenu {
                 System.out.println("Escoja un alimento");
                 System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 Integer i = 1;
-                for (Food food : foodList) {
+                for (Food food : Foods.getFoodsArray()) {
                     System.out.println(i + "- " + food.getName());
                     i++;
                 }
@@ -612,7 +675,7 @@ public class InitialOptionMenu {
                     System.out.println("Cancelando alimento");
                     break;
                 }
-                Food storedFood = foodList.get(element - 1);
+                Food storedFood = Foods.getFoodsArray().get(element - 1);
                 System.out.println("indique el número de gramos de " + storedFood.getName());
                 Integer foodGrams = Kb.forceNextInt();
                 validateAndAddFoodToDiet(storedFood, foodGrams, diet);
